@@ -1,8 +1,10 @@
 const asyncHandler = require("express-async-handler")
 const Todo = require("../models/Todo")
 const Employee = require("../models/Employee")
+const { io } = require("../socket/socket-server")
 exports.createTodo = asyncHandler(async (req, res) => {
     await Todo.create(req.body)
+    io.emit("create-todo",{message: "todo create"})
     res.json({ message: "todo create success" })
 })
 exports.readTodo = asyncHandler(async (req, res) => {
